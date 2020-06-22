@@ -17,7 +17,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
-    "vue-plugin-demo-pkg": "^0.1.4",
+    "vue-plugin-demo-pkg": "^0.1.5",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

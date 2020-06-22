@@ -7909,6 +7909,25 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-plugin-demo-pkg@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/vue-plugin-demo-pkg/-/vue-plugin-demo-pkg-0.1.4.tgz#51061707f59c8b52efbf8b03a63cf196cc23edfe"
+  integrity sha512-OHay7O7u9HfI2xzFR5l3L+q8AM+lYjjhKgNWiP8gZQL88VnET6GtcWEiFc6VBw2Ky1BCYfhYqfVgvbJhTLlyRQ==
+  dependencies:
+    core-js "^3.6.5"
+    vue "^2.6.11"
+    vuex "^3.4.0"
+
+vue-plugin-demo-pkg@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/vue-plugin-demo-pkg/-/vue-plugin-demo-pkg-0.1.5.tgz#932942bd4a212825f56df32b16b316db0c8a2e31"
+  integrity sha512-2nss8NqkXYa9KytfsllEFmD0vpfeweiellwmFRARVdzlfwdnvFKfNh+AIrxzf3GNVq+o5mJaXPqPnu1BHvndUQ==
+  dependencies:
+    core-js "^3.6.5"
+    vue "^2.6.11"
+    vue-plugin-demo-pkg "^0.1.4"
+    vuex "^3.4.0"
+
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"

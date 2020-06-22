@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import myPlugin from "./myPlugin/index.js"
+import myPlugin from "vue-plugin-demo-pkg"
 import Vuex from 'vuex'
 import rootStore from './store.js';
 Vue.use(Vuex);

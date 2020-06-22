@@ -3,8 +3,13 @@ import myComponentB from './myComponentB.vue';
 import myStore from './store.js'
 
 const MyPlugin = {
+    installed: false,
     install(Vue, rootStore) {
         // Vue is a Vue Constructor, not an Vue instance. This plugin requires passing the main app Vue instance as options parameter.
+        
+        // Prevent multiple install
+        if(this.installed) return;
+        this.installed = true;
 
         // Vue.component need to be called BEFORE new Vue() in main.js...
         Vue.component(myComponentA.name, myComponentA);
@@ -25,5 +30,5 @@ export {myComponentA, myComponentB}
 
 // Automatic installation if Vue has been added to the global scope.
 if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(MyPlugin)
+    window.Vue.use(MyPlugin, window.Vue.$store);
 }

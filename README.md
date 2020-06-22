@@ -1,6 +1,7 @@
 # Vue Plugin Demostration Project.
 
 The files we need in this demo:
+
 ![File structure.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/structure.png)
 
 ## Creating the plugin:
@@ -179,6 +180,134 @@ The plugin's vuex store has been registered as nested store of root store succes
 
 ![Plugin worked.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/result.png)
 
+## Pack and publish this plugin
+
+1. Build your plugin as library and use the plugin definition file as input by:
+
+`vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js`
+
+You should see something similar:
+
+![Build output.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/build-output.png)
+
+Your `dist` folder should now have these files created:
+
+![Build output.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/dist-files.png)
+
+2. Update `package.json`:
+
+To save time so you don't have to type the whole build command, I add this in `script` section:
+
+`"build-plugin": "vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js"`
+
+the whole `script` section now looks like:
+
+```
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-plugin": "vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js"
+  },
+```
+There are some important fields we need to add in order to publish our package successfully:
+
+- name
+  
+  You package name that will discover by other developers.
+  
+- version
+
+  Specify your package version in semver format. Note that you cannot pushing package with the same or older version number to NPM. Thus you need to update it whenever before you attempt to update the package.
+  
+- license
+
+  Specify your package license, e.g. this repo is MIT license.
+   
+- repository
+
+  Specify your package repository url, e.g. this GitHub repository url.
+  
+- private
+
+  Specify does this package can discover by public
+  
+- **files**
+
+  Specify what files you want to include in the published package, some will include the source of their package as well for easier debugging. For this demo we just keep the built files.
+  
+- **main**
+
+  Highly important, specify the file to load when someone import your plugin.
+  For example, if I set: 
+
+  `"main": ".dist/myPlugin.common.js",` instead of `"main": "./dist/myPlugin.common.js",`
+  
+  The developer who consume your package will encounter this when they `yarn serve`:
+
+  ![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/dep-not-found.png)
+
+  **Really make sure the `main` field has correctly set.**
+
+Our resulting `package.json` should look like this:
+
+```
+{
+  "name": "vue-plugin-demo-pkg",
+  "version": "0.1.5",
+  "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-plugin": "vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js"
+  },
+  "main": "./dist/myPlugin.common.js",
+  "files": [
+    "dist/*"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/VerdantSparks/Vue-Plugin-Demo",
+  ... omitted
+}
+```
+  
+3. run `yarn publish`
+
+If you did not login before, you should do that via `yarn login`.
+
+### NOTE: You need to have a NPM account and have your email verified before you can push any package to NPM. Otherwise you will see this the following error during publish (and receive an email from NPM):
+
+![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/verify-email.png)
+
+You should see something similar if you pushed your package successfully.
+
+![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/push-success.png)
+
+Let's see your package information via `yarn info <your_package_name>`
+
+![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/package-info.png)
+
+The resulting npm package can be found [here](https://www.npmjs.com/package/vue-plugin-demo-pkg).
+
+## Installing your own plugin from NPM 
+
+1. Run `yarn add vue-plugin-demo-pkg`
+
+2. Update `main.js`:
+
+change `import myPlugin from "./myPlugin/index"`
+
+to `import myPlugin from "vue-plugin-demo-pkg"`
+
+3. Run `yarn serve`
+
+4. You should find that the plugin is load from `node_module` and works exactly the same as you reference it locally.
+
+# 🎉 Congratulations 🎉  
+
+You have learned how to create your great Vue plugin and publish it to NPM ‼ 🍺
+
 ## References
 - https://www.digitalocean.com/community/tutorials/vuejs-creating-custom-plugins
 - https://www.xiegerts.com/post/creating-vue-component-library-npm/
@@ -186,3 +315,7 @@ The plugin's vuex store has been registered as nested store of root store succes
 - https://sebastiandedeyne.com/exposing-multiple-vue-components-as-a-plugin/
 - https://stackoverflow.com/questions/53089441/how-to-access-vuex-from-vue-plugin
 - https://www.digitalocean.com/community/tutorials/vuejs-vuex-dynamic-modules
+- https://www.5balloons.info/create-publish-you-first-vue-plugin-on-npm-the-right-way/
+- https://stackoverflow.com/questions/47540846/dependency-not-found-even-defined-in-package-json-and-node-modules
+
+
