@@ -2,7 +2,6 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <h1>{{foo}} {{bar}}</h1>
   </div>
 </template>
 
@@ -14,12 +13,6 @@ export default {
   components: {
     HelloWorld
   },
-  data() {
-    return {
-      foo: process.env.VUE_APP_FOO,
-      bar: process.env.VUE_APP_BAR,
-    }
-  }
 }
 </script>
 

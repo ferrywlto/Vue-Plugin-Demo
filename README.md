@@ -1,40 +1,166 @@
-# Default .gitignore repository template - VueCLI based project.
+# Vue Plugin Demostration Project.
 
-[![CodeFactor](https://www.codefactor.io/repository/github/verdantsparks/vuecli-base-project-template/badge)](https://www.codefactor.io/repository/github/verdantsparks/vuecli-base-project-template)
+## Plugin setup:
+``` // myPlugin/myComponentA.vue
+<template>
+    <div>Foo: {{getSharedStoreState}}</div>
+</template>
 
-Using this repo to save time from editing .gitignore to ignore MacOS and JetBrains file on top of Visual Studio setting. It also avoid committing user secrets into git repository. Please have your user secrets (e.g. API keys) placed in `.env.local` / `.env.{mode}.local` with key value pairs like:
-```
-VUE_APP_MY_SECRET=FOO
-```
-To prevent accidentally leak user secrets, Vue only embed values with keys having `VUE_APP_` prefix during build.
-
-Other key-value pair will only available in build files (i.e. outside of Vue app).
-
-This template repo created by default setting of VueCLI `vue create <name>`, using ***yarn*** as package manager, and does not have any plugin installed (e.g. Vue Router, Vuex, Vuetify, etc). You have to install them by your own.
-
-Please remove the `LICENSE` file when creating private repositories or change to other [LICENSE](https://choosealicense.com/) file to suit your needs.
-
-# app
-
-## Project setup
-```
-yarn install
+<script>
+    export default {
+        name: 'component-a',
+        computed: {
+            getSharedStoreState() {
+                return this.$store.state.my_store.foo - 1;
+            }
+        }
+    };
+</script>
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+``` // myPlugin/myComponentB.vue
+<template>
+    <div>Bar: {{getSharedStoreState}}</div>
+</template>
+
+<script>
+    export default {
+        name: 'component-b',
+        computed: {
+            getSharedStoreState() {
+                return this.$store.state.my_store.foo + 1;
+            }
+        }
+    };
+</script>
 ```
 
-### Compiles and minifies for production
-```
-yarn build
+``` // myPlugin/store.js
+const store = {
+    namespaced: true,
+    state: {
+        foo: 123,
+    }
+};
+
+export default store;
 ```
 
-### Lints and fixes files
-```
-yarn lint
+``` // myPlugin/index.js
+import componentA from './myComponentA';
+import componentB from './myComponentB';
+import myStore from './store.js'
+
+const MyPlugin = {
+    install(Vue, rootStore) {
+        // Vue is a Vue Constructor, not an Vue instance. This plugin requires passing the main app Vue instance as options parameter.
+
+        // Vue.component need to be called BEFORE new Vue() in main.js...
+        Vue.component(componentA.name, componentA);
+        Vue.component(componentB.name, componentB);
+
+        const storeName = 'my_store';
+
+        // While app only available AFTER new Vue() in main.js...
+        // Add store only once.
+        if(!rootStore.hasModule(storeName)) {
+            rootStore.registerModule(storeName, ProximityStore);
+        }
+    }
+}
+
+export default MyPlugin;
+
+export {componentA, componentB}
+
+// Automatic installation if Vue has been added to the global scope.
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(MyPlugin)
+}
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## App setup:
+
+```
+// main.js
+import Vue from 'vue'
+import App from './App.vue'
+import myPlugin from "./myPlugin/index.js"
+import Vuex from 'vuex'
+import rootStore from './store.js';
+Vue.use(Vuex);
+
+Vue.use(myPlugin, rootStore);
+
+new Vue({
+  render: h => h(App),
+  store: rootStore,
+}).$mount('#app');
+
+```
+** Why need to pass `rootStore` as parameter? **
+This is because you are not able to access Vuex store BEFORE new Vue() instance created in the install() method inside plugin.
+In-addition, global component registration MUST perform ahead of new Vue(). 
+
+```
+// store.js
+import Vue from 'vue';
+import Vuex from 'vuex'
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    state: {
+        bar: 456,
+    },
+    modules: {
+        a: {
+            namespaced: true,
+            state: {
+                hello: 'world',
+            }
+        },
+    },
+});
+
+export default store;
+```
+
+## Test
+``` // App.vue, styles omitted.
+<template>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+}
+</script>
+```
+
+``` // components/HelloWorld.vue
+<template>
+  <div class="hello">
+    {{msg}}
+    <component-a/>
+    <component-b/>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  }
+}
+</script>
+```
