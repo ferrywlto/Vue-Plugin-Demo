@@ -178,3 +178,11 @@ Now plugin has installed, the components from plugin can be used and the compone
 The plugin's vuex store has been registered as nested store of root store successfully.
 
 ![Plugin worked.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/result.png)
+
+## References
+https://www.digitalocean.com/community/tutorials/vuejs-creating-custom-plugins
+https://www.xiegerts.com/post/creating-vue-component-library-npm/
+https://www.xiegerts.com/post/creating-vue-component-library-structure/
+https://sebastiandedeyne.com/exposing-multiple-vue-components-as-a-plugin/
+https://stackoverflow.com/questions/53089441/how-to-access-vuex-from-vue-plugin
+https://www.digitalocean.com/community/tutorials/vuejs-vuex-dynamic-modules
