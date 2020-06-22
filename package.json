@@ -1,6 +1,6 @@
 {
   "name": "vue-plugin-demo-pkg",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint",
     "build-component": "vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js"
   },
-  "main": ".dist/myPlugin.common.js",
+  "main": "./dist/myPlugin.common.js",
   "files": [
     "dist/*"
   ],
@@ -17,6 +17,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-plugin-demo-pkg": "^0.1.4",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
