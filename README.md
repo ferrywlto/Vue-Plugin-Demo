@@ -1,7 +1,11 @@
 # Vue Plugin Demostration Project.
 
-## Plugin setup:
-``` // myPlugin/myComponentA.vue
+The files we need in this demo:
+![File structure.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/structure.png)
+
+## Creating the plugin:
+```
+// myPlugin/myComponentA.vue
 <template>
     <div>Foo: {{getSharedStoreState}}</div>
 </template>
@@ -18,7 +22,8 @@
 </script>
 ```
 
-``` // myPlugin/myComponentB.vue
+```
+// myPlugin/myComponentB.vue
 <template>
     <div>Bar: {{getSharedStoreState}}</div>
 </template>
@@ -35,7 +40,8 @@
 </script>
 ```
 
-``` // myPlugin/store.js
+```
+// myPlugin/store.js
 const store = {
     namespaced: true,
     state: {
@@ -46,7 +52,8 @@ const store = {
 export default store;
 ```
 
-``` // myPlugin/index.js
+``` 
+// myPlugin/index.js
 import componentA from './myComponentA';
 import componentB from './myComponentB';
 import myStore from './store.js'
@@ -79,7 +86,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 ```
 
-## App setup:
+## Installing the plugin:
 
 ```
 // main.js
@@ -125,8 +132,9 @@ const store = new Vuex.Store({
 export default store;
 ```
 
-## Test
-``` // App.vue, styles omitted.
+## Validate it works.
+``` 
+// App.vue, styles omitted.
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
@@ -146,7 +154,8 @@ export default {
 </script>
 ```
 
-``` // components/HelloWorld.vue
+``` 
+// components/HelloWorld.vue
 <template>
   <div class="hello">
     {{msg}}
@@ -164,3 +173,8 @@ export default {
 }
 </script>
 ```
+
+Now plugin has installed, the components from plugin can be used and the components can access the plugin's vuex store.
+The plugin's vuex store has been registered as nested store of root store successfully.
+
+![Plugin worked.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/result.png)
