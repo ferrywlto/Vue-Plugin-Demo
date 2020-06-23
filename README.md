@@ -333,9 +333,7 @@ NOTE: if you omitted the `--scope` switch, you will encounter a 404 not found er
 
 ![404 error.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/not-found.png)
 
-3. Push your plugin to GPR:
-
-`npm publish`
+3. Push your plugin to GPR: `npm publish`
 
 ![GitHub default.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/gpr-success.png)
 
