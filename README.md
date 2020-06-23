@@ -4,6 +4,8 @@ The files we need in this demo:
 
 ![File structure.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/structure.png)
 
+This project will create a most basic Vue plugin, it consist a Vuex store, and two SFC that read the vuex store. Build, pack and publish them as NPM package and finally consume it back from NPM registry.
+
 ## Creating the plugin:
 ```
 // myPlugin/myComponentA.vue
@@ -192,7 +194,7 @@ You should see something similar:
 
 Your `dist` folder should now have these files created:
 
-![Build output.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/dist-files.png)
+![Files in dist folder.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/dist-files.png)
 
 2. Update `package.json`:
 
@@ -278,15 +280,15 @@ If you did not login before, you should do that via `yarn login`.
 
 ### NOTE: You need to have a NPM account and have your email verified before you can push any package to NPM. Otherwise you will see this the following error during publish (and receive an email from NPM):
 
-![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/verify-email.png)
+![Email not verified.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/verify-email.png)
 
 You should see something similar if you pushed your package successfully.
 
-![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/push-success.png)
+![Package published.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/push-success.png)
 
 Let's see your package information via `yarn info <your_package_name>`
 
-![Dependency not found.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/package-info.png)
+![Package information.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/package-info.png)
 
 The resulting npm package can be found [here](https://www.npmjs.com/package/vue-plugin-demo-pkg).
 
@@ -308,6 +310,89 @@ to `import myPlugin from "vue-plugin-demo-pkg"`
 
 You have learned how to create your great Vue plugin and publish it to NPM ‼ 🍺
 
+## One more thing. 👀
+
+### Publish the plugin to GPR (GitHub Package Registry)
+
+1. Update package.json, add:
+
+```
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@<YOUR_USERNAME_OR_ORG_NAME>"
+  },
+```
+
+This is not the same as the package tag in your repository stated. 
+![GPR default.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/gpr-default.png)
+
+2. Login npm of GPR:
+
+`npm login --registry=https://npm.pkg.github.com --scope=@<YOUR_USERNAME_OR_ORG_NAME>`
+
+NOTE: if you omitted the `--scope` switch, you will encounter a 404 not found error when you `npm publish`
+
+![404 error.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/not-found.png)
+
+3. Push your plugin to GPR:
+
+`npm publish`
+
+![GitHub default.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/gpr-success.png)
+
+4. Consume the plugin from GPR:
+
+  4.1 Create a new Vue project from Vue CLI: `vue create <app_name>`
+  
+  4.2 Login GPR npm registry:
+  
+  `npm login --registry=https://npm.pkg.github.com/ --scope=@<YOU_OR_ORG_GITHUB_NAME>`
+  
+  4.3 Install the plugin from GPR:
+  
+  `npm i @<YOU_OR_ORG_GITHUB_NAME>/vue-plugin-demo-pkg`
+
+  4.4 Update code to use the plugin:
+
+```
+// in main.js
+import Vue from 'vue'
+import App from './App.vue'
+import Vuex from 'vuex';
+Vue.use(Vuex);
+const rootStore = new Vuex.Store();
+
+import MyPlugin from '@VerdantSparks/vue-plugin-demo-pkg'
+Vue.use(MyPlugin, rootStore);
+Vue.config.productionTip = false
+
+new Vue({
+  store: rootStore,
+  render: h => h(App),
+}).$mount('#app')
+
+
+// in HelloWorld.vue
+<template>
+    ...omitted
+        <component-a/>
+        <component-b/>
+    </div>
+</template>
+
+// in package.json
+    ...omitted
+    "dependencies": {
+    "@VerdantSparks/vue-plugin-demo-pkg": "^0.1.5",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
+    },
+    ...omitted
+```
+
+5. Run the Vue app: `npm serve` 
+
+You should see the plugin works as expected. 😀
+
 ## References
 - https://www.digitalocean.com/community/tutorials/vuejs-creating-custom-plugins
 - https://www.xiegerts.com/post/creating-vue-component-library-npm/
@@ -317,5 +402,6 @@ You have learned how to create your great Vue plugin and publish it to NPM ‼ �
 - https://www.digitalocean.com/community/tutorials/vuejs-vuex-dynamic-modules
 - https://www.5balloons.info/create-publish-you-first-vue-plugin-on-npm-the-right-way/
 - https://stackoverflow.com/questions/47540846/dependency-not-found-even-defined-in-package-json-and-node-modules
+- https://stackoverflow.com/questions/57938784/not-found-put-https-npm-pkg-github-com-package-name
 
 
