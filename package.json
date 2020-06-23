@@ -1,12 +1,12 @@
 {
   "name": "vue-plugin-demo-pkg",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build-component": "vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js"
+    "build-plugin": "vue-cli-service build --target lib --name myPlugin ./src/myPlugin/index.js"
   },
   "main": "./dist/myPlugin.common.js",
   "files": [
@@ -14,6 +14,9 @@
   ],
   "license": "MIT",
   "repository": "https://github.com/VerdantSparks/Vue-Plugin-Demo",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
