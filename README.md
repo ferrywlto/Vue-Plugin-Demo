@@ -232,7 +232,7 @@ There are some important fields we need to add in order to publish our package s
   
 - private
 
-  Specify does this package can discover by public
+  Specify does this package can discover by public, gotta set to `false` otherwise `yarn publish` or `npm publish` will not work.
   
 - **files**
 
@@ -324,6 +324,18 @@ You have learned how to create your great Vue plugin and publish it to NPM â€¼ ð
 
 This is not the same as the package tag in your repository stated. 
 ![GPR default.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/gpr-default.png)
+
+## EDIT 20210108: Since GPR was changed, you need to use the following setting in your `package.json`.
+```
+  "name": "@<organization_name>/<package_name>",
+  "repository": "https://github.com/VerdantSparks/<repo_name>",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+```
+
+This error will occur otherwise:
+![Name not match error.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/not-match.png)
 
 2. Login npm of GPR:
 
