@@ -1,5 +1,7 @@
 # Vue Plugin Demostration Project.
 
+### Note: This guide only talk about creating JavaScript package. Although you can write the package in Typescript, since there are some difficulties on generating the `index.d.ts` declaration file for Single File Component (`.vue` files) in Vue (unless you need to config `rollup` as well), the produceded pacakge by this guide will lack the `index.d.ts` file and thus not able to import in `.ts` file. Therefore we do not recommend spending effort to make Typescript consumable package.
+
 The files we need in this demo:
 
 ![File structure.](https://github.com/VerdantSparks/Vue-Plugin-Demo/blob/master/doc/structure.png)
