@@ -330,7 +330,7 @@ This is not the same as the package tag in your repository stated.
 ## EDIT 20210108: Since GPR was changed, you need to use the following setting in your `package.json`.
 ```
   "name": "@<organization_name>/<package_name>",
-  "repository": "https://github.com/VerdantSparks/<repo_name>",
+  "repository": "https://github.com/<organization_name>/<repo_name>",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
